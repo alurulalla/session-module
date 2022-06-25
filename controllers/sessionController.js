@@ -31,5 +31,6 @@ exports.setSessionData = catchAsync(async (req, res, next) => {
   }
 
   req.session[sessionKey] = data;
+
   res.json({ message: 'successfully added to session' });
 });

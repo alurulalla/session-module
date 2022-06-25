@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
+const cookieParser = require('cookie-parser');
 
 const redisClient = require('./services/redisServices');
 const sessionRouter = require('./routes/sessionRouter');
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 redisClient.on('connect', () => console.log('Successfully connected to Redis'));
 
@@ -28,7 +30,6 @@ app.use(
       secure: process.env.ENVIRONMENT === 'production' ? 'true' : 'auto',
       httpOnly: true,
       expires: 1000 * 60 * +process.env.COOKIE_EXPIPRE_IN_MIN,
-      sameSite: true,
     },
   })
 );
