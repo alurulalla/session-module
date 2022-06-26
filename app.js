@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 redisClient.on('connect', () => console.log('Successfully connected to Redis'));
+redisClient.on('error', () => console.log('unable to connect to redis'));
 
 app.use(
   session({
@@ -27,7 +28,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.ENVIRONMENT === 'production' ? 'true' : 'auto',
+      secure: process.env.NODE_ENV === 'production' ? 'true' : 'auto',
       httpOnly: true,
       expires: 1000 * 60 * +process.env.COOKIE_EXPIPRE_IN_MIN,
     },
