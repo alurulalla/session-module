@@ -25,3 +25,15 @@ exports.setCacheData = catchAsync(async (req, res, next) => {
 
   res.json({ messag: 'Successfully cached the data' });
 });
+
+exports.deleteCacheData = catchAsync(async (req, res, next) => {
+  const { cacheKey } = req.query;
+
+  if (!cacheKey) {
+    return next(new AppError(`'cacheKey' is required`, 400));
+  }
+
+  await redisClient.del(cacheKey);
+
+  res.sendStatus(204);
+});
