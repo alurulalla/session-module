@@ -36,10 +36,10 @@ exports.setSessionData = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteSessionData = catchAsync(async (req, res, next) => {
-  const { sessionKey } = req.query;
+  const { session } = req;
 
-  if (!sessionKey) {
-    return next(new AppError(`'sessionKey' is required.`, 400));
+  if (!session) {
+    return next(new AppError(`'No session found.`, 400));
   }
 
   await req.session.destroy();
